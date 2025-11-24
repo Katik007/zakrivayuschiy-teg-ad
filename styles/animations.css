@@ -9,3 +9,144 @@
 ✦ button__text — для обозначения текстового элемента внутри кнопки
 
 */
+
+/* Анимация увеличения сердца */
+@keyframes scale-heart {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.5);
+  }
+}
+
+@keyframes show-sparks {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Общие стили для кнопок, которые будут анимироваться */
+.button {
+  position: relative; /* Необходимо для позиционирования псевдоэлемента */
+  overflow: hidden; /* Скрываем псевдоэлемент, когда он за пределами кнопки */
+  transition: box-shadow 0.3s ease; /* Плавность для тени при фокусе */
+}
+
+.button:focus {
+  outline: none; /* Убираем стандартную обводку */
+}
+
+/* Добавляем тень при фокусе с клавиатуры */
+.button:focus-visible {
+  box-shadow: 2px 2px 0 0 var(--accent-color);
+}
+
+/* Псевдоэлемент, который будет "заливать" кнопку */
+.button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--accent-color);
+  transform: translateX(-100%);
+  transition: transform 0.5s ease-in-out;
+}
+
+/* Анимация заливки при наведении */
+.button:hover::before {
+  transform: translateX(0);
+}
+
+/* Текст и иконка внутри кнопки */
+.button__text,
+.save-button__icon {
+  position: relative; /* Чтобы текст был над псевдоэлементом */
+  z-index: 1; /* Аналогично, поднимаем на слой выше */
+  mix-blend-mode: difference;  /*Магия инверсии цвета */
+  color: var(--bg-color); /* Изначальный цвет текста */
+}
+
+
+/* Heart Animation */
+
+/* Задаем цвета контура и заливки через переменные, как в SVG */
+.like-icon {
+  --contour-color: var(--accent-color);
+  --animation-fill-color: #f00;
+}
+
+/* Изначально видимым должен быть только контур. Скрываем искры. */
+.like-icon .sparks {
+  opacity: 0;
+}
+
+/* Для плавного масштабирования сердца */
+.like-icon .heart {
+  transform-origin: center;
+}
+
+/* Плавные переходы для заливки */
+.like-icon .core {
+  transition: fill 0.3s linear 0.03s;
+}
+
+.like-icon .main-body {
+  transition: fill 0.3s linear;
+}
+
+/* Закрашиваем при наведении */
+.card__icon-button:hover .like-icon .core {
+  fill: var(--contour-color);
+  transition-delay: 0s;
+}
+
+.card__icon-button:hover .like-icon .main-body {
+  fill: var(--contour-color);
+  transition-delay: 0.05s;
+}
+
+/* --- Анимация при нажатии и удержании (Active) --- */
+.card__icon-button:active .like-icon .core {
+  fill: var(--animation-fill-color);
+  transition-delay: 0s;
+}
+
+.card__icon-button:active .like-icon .main-body {
+  fill: var(--animation-fill-color);
+  transition-delay: 0.05s;
+}
+
+/* Когда сердце "лайкнуто" */
+.like-icon.is-liked .core {
+  fill: var(--animation-fill-color);
+  transition-delay: 0s;
+}
+
+.like-icon.is-liked .main-body {
+  fill: var(--animation-fill-color);
+  transition-delay: 0.05s;
+}
+
+.like-icon.is-liked .contour {
+  fill: var(--animation-fill-color);
+  transition: fill 0.3s linear 0.06s;
+}
+
+/* Запускаем анимации по keyframes */
+.like-icon.is-liked .heart {
+  animation: scale-heart 0.3s ease-in 0.1s alternate;
+}
+
+.like-icon.is-liked .sparks {
+  animation: show-sparks 0.3s ease-in 0.3s alternate;
+}
+
+.like-icon .contour {
+  transition: fill 0.1s linear;
+}

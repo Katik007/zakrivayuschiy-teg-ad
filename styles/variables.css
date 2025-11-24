@@ -1,1 +1,29 @@
 /* В этом файле будут храниться все значения переменных в исходном состоянии, а так же их изменения в зависимости от ширины устройства */
+
+
+/* styles/variables.css */
+
+:root {
+  /* Fonts */
+  --main-font: 'Inter', sans-serif;
+  --accent-font: 'PressStart2P', fantasy;
+
+  /* Weights */
+  --card-text-weight: 400;
+  --card-title-weight: 700;
+
+  /* Colors */
+  --bg-color: #fff;
+  --accent-color: #000;
+  --text-stroke-color: #fff;
+  --animation-fill-color: #f00; /* Красный для анимации сердца */
+
+  /* Background */
+  --bg-image:
+          repeating-linear-gradient(to right, #d3d3d3 0 2px, transparent 2px 4px),
+          repeating-linear-gradient(to bottom, #d3d3d3 0 2px, transparent 2px 4px),
+          linear-gradient(to bottom, #e7e7e7 0.01%, #1a1a1a);
+
+  /* Page Width */
+  --content-width: clamp(23.438rem, 30.51vw + 17.344rem, 47.813rem); /* clamp(375px, ..., 765px) */
+}

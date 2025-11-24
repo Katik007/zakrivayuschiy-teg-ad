@@ -10,7 +10,284 @@
 
 */
 
+
 .page {
   min-inline-size: 320px;
   min-block-size: 100dvb;
+  font-family: var(--main-font);
+  font-variation-settings: 'wght' var(--card-text-weight);
+  color: var(--accent-color);
+  background-color: var(--bg-color);
+  background-image: var(--bg-image);
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+.header {
+  background-color: var(--bg-color);
+  border: 2px solid var(--accent-color);
+  margin-block-end: 100px;
+  padding: clamp(7.5rem, 6.545rem + 4.09vw, 9.813rem) 0; /* clamp(120px, ..., 157px) */
+}
+
+.header__container {
+  max-inline-size: var(--content-width);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.header__logo {
+  font-family: var(--accent-font);
+  font-size: clamp(2.375rem, 1.875rem + 2.13vw, 3.5rem); /* clamp(38px, ..., 56px) */
+  text-decoration: none;
+}
+
+.header__title {
+  font-family: var(--accent-font);
+  font-size: clamp(0.875rem, 0.677rem + 0.85vw, 1.438rem); /* clamp(14px, ..., 23px) */
+  text-transform: uppercase;
+}
+
+/* Main Content */
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 50px;
+}
+
+.cards-grid {
+  display: grid;
+  gap: 50px;
+  max-inline-size: var(--content-width);
+  width: 100%;
+}
+
+/* --- Стили карточки --- */
+
+.card {
+  background-color: var(--bg-color);
+  border: 2px solid var(--accent-color);
+}
+
+.card__title {
+  font-size: 18px;
+  font-variation-settings: 'wght' var(--card-title-weight);
+  padding: 4px 10px;
+}
+
+.card__image-container {
+  position: relative; /* Важно для позиционирования лейбла */
+  border-top: 2px solid var(--accent-color);
+  border-bottom: 2px solid var(--accent-color);
+}
+
+.card__image {
+  display: block; /* Убирает лишний отступ под картинкой */
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.card__text-content {
+  padding: 25px;
+  display: grid;
+  gap: 27px;
+}
+
+.card__text {
+  font-size: 18px;
+  line-height: 1.16; /* 21px / 18px */
+}
+
+.card__buttons {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 5px;
+  padding: 25px;
+}
+
+/* Generic Button Styles */
+.button {
+  cursor: pointer;
+  background-color: var(--bg-color);
+  border: 2px solid var(--accent-color);
+  font-family: var(--accent-font);
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 9px 15px; /* Примерные отступы, можно будет подогнать */
+}
+
+.card__icon-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  height: 38px; /* Чтобы выровнять с кнопкой Like */
+  display: grid;
+  place-items: center;
+}
+
+.card__like-button {
+  /* Наследует стили от .button, но нужно добавить его в HTML */
+  width: 130px;
+  height: 38px;
+}
+
+.save-button {
+  /* Наследует стили от .button, но нужно добавить его в HTML */
+  margin-block-end: 100px;
+  padding: 15px 20px;
+}
+
+.card__image-label {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  font-family: var(--accent-font);
+  font-size: 14px;
+  text-transform: uppercase;
+  color: var(--accent-color);
+  opacity: 0.5;
+  mix-blend-mode: hard-light;
+
+  /* Fallback для обводки текста в старых браузерах */
+  text-shadow:
+          -1px 0 var(--text-stroke-color),
+          0 1px var(--text-stroke-color),
+          1px 0 var(--text-stroke-color),
+          0 -1px var(--text-stroke-color);
+}
+
+/* Проверяем, поддерживает ли браузер text-stroke */
+@supports ((text-stroke: 1px var(--bg-color)) or (-webkit-text-stroke: 1px var(--bg-color))) {
+  .card__image-label {
+    -webkit-text-stroke: 1px var(--text-stroke-color);
+    text-stroke: 1px var(--text-stroke-color);
+    text-shadow: none; /* Убираем fallback, если text-stroke работает */
+  }
+}
+
+/* Dialog */
+.dialog {
+  padding: 30px;
+  background-color: var(--bg-color);
+  border: 2px solid var(--accent-color);
+  max-inline-size: clamp(21.313rem, 21.313rem + 0vw, 21.313rem); /* 341px */
+  color: var(--accent-color);
+  font-family: var(--accent-font);
+  text-transform: uppercase;
+  line-height: 1.5; /* 21px / 14px */
+  font-size: 14px;
+}
+
+/* Стили для открытого диалога */
+.dialog[open] {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 20px;
+  align-items: center;
+}
+
+.dialog__content {
+  display: contents; /* Позволяет дочерним элементам участвовать в гриде родителя */
+}
+
+.dialog__icon {
+  width: 39px;
+  height: 39px;
+}
+
+.dialog__form {
+  grid-column: 1 / -1; /* Растягиваем форму на все колонки грида */
+  display: flex;
+  justify-content: center;
+}
+
+.dialog__button {
+  width: 100%;
+  padding: 12px;
+}
+
+/* Стили для фона за диалогом */
+.dialog::backdrop {
+  background-color: rgb(0 0 0 / 0.75);
+}
+
+/* --- Адаптивность для мобильных устройств --- */
+
+@media (width <= 375px) {
+  /* Header */
+  .header {
+    margin-block-end: 64px;
+    padding: 120px 0;
+  }
+
+  .header__container {
+    padding: 0 14px;
+  }
+
+  /* Save Button */
+  .save-button {
+    flex-direction: column;
+    padding: 15px;
+    gap: 8px;
+    margin-block-end: 64px;
+  }
+
+  /* Dialog */
+  .dialog {
+    max-inline-size: 100%;
+    padding: 30px 40px;
+  }
+}
+
+
+/* Image Filters */
+
+/* 1. Классический черно-белый */
+.image-filter-0 {
+  filter: grayscale(1);
+}
+
+/* 2. Легкая сепия */
+.image-filter-1 {
+  filter: sepia(0.6);
+}
+
+/* 3. Увеличенный контраст и насыщенность */
+.image-filter-2 {
+  filter: contrast(1.5) saturate(1.2); /* <-- Это множественный фильтр */
+}
+
+/* 4. Инверсия цвета */
+.image-filter-3 {
+  filter: invert(1);
+}
+
+/* 5. Размытие */
+.image-filter-4 {
+  filter: blur(2px);
+}
+
+/* 6. Поворот оттенка (делает цвета "психоделическими") */
+.image-filter-5 {
+  filter: hue-rotate(90deg);
+}
+
+/* 7. Пониженная яркость */
+.image-filter-6 {
+  filter: brightness(0.5);
+}
+
+/* 8. Оставим без фильтра для разнообразия */
+.image-filter-7 {
+  filter: none;
 }
